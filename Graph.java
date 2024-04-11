@@ -11,15 +11,21 @@ public class Graph {
     public void addEdge(int id1, int id2, int weight){
         Node v1 = findNode(id1);
         Node v2 = findNode(id2);
-        if (v1 != null && v2 != null) {
-            edges.add(new Edge(v1, v2, weight));
-            System.out.println("Dodano nową Krawędź o wartościach v1: " + v1 + " " + "v2: " + v2 + " " + "weight: " + weight);
-        }
-            else {
-            System.out.println("Taka Krawędź już istnieje");
+        for (Edge edge : edges) {
+            if ((edge.v1 == v1 && edge.v2 == v2) || (edge.v1 == v2 && edge.v2 == v1)) {
+                System.out.println("Krawędź już istnieje.");
+                return;
+            }
         }
 
+        if (v1 != null && v2 != null) {
+            edges.add(new Edge(v1, v2, weight));
+            System.out.println("Dodano nową Krawędź o wierzchołkach (które mają id) v1: " + v1.id + " " + "v2: " + v2.id + " " + "weight: " + weight);
+        } else {
+            System.out.println("Nie ma Node, który połączyłby się z tą krawędzią");
+        }
     }
+
 
     public Edge findEdge(int id1, int id2) {
         if (this.edges != null) {
@@ -57,8 +63,8 @@ public class Graph {
             Edge edgeLog;
                 if (edgesRemoval != null) {
                     for (int i = 0; i < edgesRemoval.size(); i++) {
-                        System.out.println("Usunięto krawędź z wagą" + edgesRemoval.get(i).weight + " i id1: " + edgesRemoval.get(i).v1.id + "oraz id2" + edgesRemoval.get(i).v2.id);
-                        edges.remove(edgesRemoval.get(id));
+                        System.out.println("Usunięto krawędź z wagą" + edgesRemoval.get(i).weight + " i id1: " + edgesRemoval.get(i).v1.id + "oraz id2: " + edgesRemoval.get(i).v2.id);
+                        edges.remove(edgesRemoval.get(i));
 
                     }
                 }
@@ -94,7 +100,7 @@ public class Graph {
     public Node findNode(int id) {
         for (int i = 0; i < this.nodes.size(); i++) {
             if(this.nodes.get(i).id == id) {
-                return nodes.get(id);
+                return nodes.get(i);
             }
         }
         return null;
